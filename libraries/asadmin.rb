@@ -57,7 +57,7 @@ class Chef
     end
 
     def self.versioned_component_name(component_name, component_type, version, url, descriptors)
-      return component_name if version.nil? && url.nil?
+      return component_name if version == 'unversioned' || version.nil? && url.nil?
       version_value = version ? version.to_s : Digest::SHA1.hexdigest(url)
       versioned_component_name = "#{component_name}:#{version_value}"
       if descriptors && !descriptors.empty?
