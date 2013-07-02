@@ -70,7 +70,6 @@ The `attribute_driven_mq` recipe interprets attributes on the node and defines t
 * [glassfish_mq_destination](#glassfish_mq_destination) - Creates or deletes a queue or a topic in an OpenMQ message broker instance.
 * [glassfish_mq_ensure_running](#glassfish_mq_ensure_running) - Ensures that a OpenMQ message broker instance has had a chance to finish starting before proceeding.
 * [glassfish_property](#glassfish_property)
-* [glassfish_system_property](#glassfish_system_property)
 * [glassfish_resource_adapter](#glassfish_resource_adapter)
 * [glassfish_secure_admin](#glassfish_secure_admin) - Enable or disable secure admin flag on the GlassFish server which enables/disables remote administration.
 * [glassfish_web_env_entry](#glassfish_web_env_entry) - Set a value that can be retrieved as a `web env entry` in a particular web application.
@@ -588,26 +587,6 @@ Ensures that a OpenMQ message broker instance has had a chance to finish startin
     end
 
 ## glassfish_property
-
-### Actions
-
-- set:  Default action.
-
-### Attribute Parameters
-
-- key: 
-- value: 
-- domain_name: The name of the domain.
-- terse: Use terse output from the underlying asadmin. Defaults to <code>false</code>.
-- echo: If true, echo commands supplied to asadmin. Defaults to <code>true</code>.
-- username: The username to use when communicating with the domain. Defaults to <code>nil</code>.
-- password_file: The file in which the password must be stored assigned to appropriate key. Defaults to <code>nil</code>.
-- secure: If true use SSL when communicating with the domain for administration. Defaults to <code>false</code>.
-- admin_port: The port on which the web management console is bound. Defaults to <code>4848</code>.
-- system_user: The user that the domain executes as. Defaults to `node['glassfish']['user']` if unset. Defaults to <code>nil</code>.
-- system_group: The group that the domain executes as. Defaults to `node['glassfish']['group']` if unset. Defaults to <code>nil</code>.
-
-## glassfish_system_property
 
 ### Actions
 

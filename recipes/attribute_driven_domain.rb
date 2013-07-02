@@ -136,22 +136,6 @@ gf_sort(node['glassfish']['domains']).each_pair do |domain_key, definition|
     end
   end
 
-  if definition['system_properties']
-    gf_sort(definition['system_properties']).each_pair do |key, value|
-      glassfish_system_property "#{key}=#{value}" do
-        domain_name domain_key
-        admin_port admin_port if admin_port
-        username username if username
-        password_file password_file if password_file
-        secure secure if secure
-        system_user system_username if system_username
-        system_group system_group if system_group
-        key key
-        value value.to_s
-      end
-    end
-  end
-
   ##
   ## Deploy all OSGi bundles prior to attempting to setup resources as they are likely to be the things
   ## that are provided by OSGi
