@@ -26,7 +26,7 @@ end
 action :deploy do
   raise "Must specify url" unless new_resource.url
 
-  version_value = new_resource.version ? new_resource.version.to_s : Digest::SHA1.hexdigest(new_resource.url)
+  version_value = Asadmin.component_version(new_resource.version, new_resource.url)
   base_cache_name = "#{Chef::Config[:file_cache_path]}/#{new_resource.domain_name}_#{new_resource.component_name}_#{version_value}"
 
   check_command = "#{asadmin_command('list-applications')} #{new_resource.target} | grep -q -- '#{versioned_name} '"

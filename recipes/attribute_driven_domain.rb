@@ -411,7 +411,7 @@ gf_sort(node['glassfish']['domains']).each_pair do |domain_key, definition|
       if definition['deployables'][key]
         config = definition['deployables'][key]
         if config['type'].to_s != 'osgi'
-          if config['version'] == version || Digest::SHA1.hexdigest(config['url']) == version
+          if config['version'] == version || Asadmin.component_version(config['version'], config['url']) == version
             if (!plan_version && (!config['descriptors'] || config['descriptors'].empty?)) ||
               (Asadmin.generate_component_plan_digest(config['descriptors']) == plan_version)
               keep = true

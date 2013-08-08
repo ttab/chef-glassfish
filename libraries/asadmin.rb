@@ -56,9 +56,11 @@ class Chef
       plan_digest.hexdigest
     end
 
-    def self.versioned_component_name(component_name, component_type, version, url, descriptors)
+    def self.component_version(version, url)
       require 'net/http'
-      return component_name if version == 'unversioned' || version.nil? && url.nil?
+      return nil if version == 'unversioned' || version.nil? && url.nil?
+
+       return version.to_s if version
 
       # head request to get last modified
       uri = URI(url)
@@ -68,9 +70,18 @@ class Chef
         lastModified = response['Last-Modified']
       }
 
-      version_value = version ? version.to_s : Digest::SHA1.hexdigest(url + lastModified)
+      return Digest::SHA1.hexdigest(url + lastModified)
+
+    end
+
+    def self.versioned_component_name(component_name, component_type, version, url, descriptors)
+
+      version_value = self.component_version(version, url)
+
+      return component_name if version_value.nil?
 
       versioned_component_name = "#{component_name}:#{version_value}"
+
       if descriptors && !descriptors.empty?
         versioned_component_name = "#{versioned_component_name}+#{generate_component_plan_digest(descriptors)}"
       end
