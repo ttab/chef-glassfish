@@ -57,8 +57,19 @@ class Chef
     end
 
     def self.versioned_component_name(component_name, component_type, version, url, descriptors)
+      require 'net/http'
       return component_name if version == 'unversioned' || version.nil? && url.nil?
-      version_value = version ? version.to_s : Digest::SHA1.hexdigest(url)
+
+      # head request to get last modified
+      uri = URI(url)
+      lastModified = nil
+      Net::HTTP.start(url.host, url.port){|http|
+        response = http.request_head(uri.path)
+        lastModified = response['Last-Modified']
+      }
+
+      version_value = version ? version.to_s : Digest::SHA1.hexdigest(url + lastModified)
+
       versioned_component_name = "#{component_name}:#{version_value}"
       if descriptors && !descriptors.empty?
         versioned_component_name = "#{versioned_component_name}+#{generate_component_plan_digest(descriptors)}"
