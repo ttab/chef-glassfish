@@ -63,7 +63,7 @@ class Chef
       # head request to get last modified
       uri = URI(url)
       lastModified = nil
-      Net::HTTP.start(url.host, url.port){|http|
+      Net::HTTP.start(uri.host, uri.port){|http|
         response = http.request_head(uri.path)
         lastModified = response['Last-Modified']
       }
