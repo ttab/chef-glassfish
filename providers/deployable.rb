@@ -109,6 +109,7 @@ test -f #{deployment_plan}
   end
 
   service "glassfish-#{new_resource.domain_name}" do
+    provider Chef::Provider::Service::Upstart
   end
 
 end
