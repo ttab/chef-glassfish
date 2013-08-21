@@ -104,13 +104,11 @@ test -f #{deployment_plan}
     group new_resource.system_group
     code asadmin_command(command.join(' '))
 
-    notifies :restart, "service[glassfish-#{new_resource.domain_name}]", :delayed
+    service "glassfish-#{new_resource.domain_name}" do
+      action [:restart]
+    end
 
   end
-
-  service "glassfish-#{new_resource.domain_name}" do
-  end
-
 end
 
 action :undeploy do
