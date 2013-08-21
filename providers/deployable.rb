@@ -26,12 +26,6 @@ end
 action :deploy do
   raise "Must specify url" unless new_resource.url
 
-  service "glassfish-#{new_resource.domain_name}" do
-    provider Chef::Provider::Service::Upstart
-    supports :restart => true, :status => true
-    action :nothing
-  end
-
   version_value = Asadmin.component_version(new_resource.version, new_resource.url)
   base_cache_name = "#{Chef::Config[:file_cache_path]}/#{new_resource.domain_name}_#{new_resource.component_name}_#{version_value}"
 
@@ -112,6 +106,10 @@ test -f #{deployment_plan}
 
     notifies :restart, "service[glassfish-#{new_resource.domain_name}]", :delayed
 
+  end
+
+  service "glassfish-#{new_resource.domain_name}" do
+    provider Chef::Provider::Service::Upstart
   end
 
 end
